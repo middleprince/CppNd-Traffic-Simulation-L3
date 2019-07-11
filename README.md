@@ -1,14 +1,13 @@
 # CppNd-Traffic-Simulation-L3
 
 ## Summary
-  <img src="data/traffic-simulation-L2.gif"/>
-  This is project Stage3.
+  ![trraffic-simulation-L3](data/traffic-simulation-L3.gif)
+
+This is project Stage3.
+
+Bsed on project stage2, this project is meant to add mutex to make Vehicle id output corecttely and protect some critical data.
+
   
-  Bsed on project stage1, this project add functions, which comunicates between vehicles and intersection to ensure one 
-  intersection pass one vehicle one time.
-  
-  **projectL2 structue**
-  ![project structure](data/traffic-simulate-L2-structure.jpg)
 
 ## Dependencies for Buiding 
 
@@ -37,14 +36,6 @@ completed using command `./traffic_simulation` to run.
 
 ## Project Tasks
 
-- **Task L2.1** : In method Vehicle::drive(), start up a task using std::async which takes a reference to the
-method Intersection::addVehicleToQueue, the object _currDestination and a shared pointer to this using the
-get_shared_this() function. Then, wait for the data to be available before proceeding to slow down.
-
-- **Task L2.2** : In method Intersection::addVehicleToQueue(), add the new vehicle to the waiting line by
-creating a promise, a corresponding future and then adding both to _waitingVehicles. Then wait until
-the vehicle has been granted entry.
-
-- **Task L2.3** : In method WaitingVehicles::permitEntryToFirstInQueue(), get the entries from the
-front of _promises and _vehicles. Then, fulfill promise and send signal back that permission to enter
-has been granted. Finally, remove the front elements from both queues.
+- **Task L3.1** : In class `WaitingVehicles`, safeguard all accesses to the private members `_vehicles`and `_promises` with an appropriate locking mechanism, that will not cause a deadlock situation where access to the resources is accidentally blocked.
+- **Task L3.2** : Add a static mutex to the base class `TrafficObject` (called `_mtxCout`) and properly instantiate it in the source file. This mutex will be used in the next task to protect standard-out.
+- **Task L2.3** : In method `Intersection::addVehicleToQueue` and in `Vehicle::drive()` ensure that the text output locks the console as a shared resource. Use the mutex `_mtxCout` you have added to the base class `TrafficObject` in the previous task. Make sure that in between the two calls to `std::cout` at the beginning and at the end of `addVehicleToQueue` the lock is not held.
